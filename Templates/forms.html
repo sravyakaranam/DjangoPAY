@@ -1,0 +1,247 @@
+<html>
+    
+    <head>
+        <title>
+
+        </title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
+        
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
+        {% load static %}
+    </head>
+    <body  background="https://img.freepik.com/free-photo/old-wooden-texture-background-vintage_55716-1138.jpg?size=626&ext=jpg">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#">Django-PAY</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+      
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+
+              
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MyAccount</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                      <a class="dropdown-item" href="/profile">My-Profile</a>
+                      <a class="dropdown-item" href="/proview/viewcart">My-Cart</a>
+                      <a class="dropdown-item" href="/logout">Logout</a>
+                      
+                    </div>
+                  </li>
+                
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                  
+              </form>
+            </div>
+          </nav>
+          {% load static %}
+        <main role="main" class="ex1">
+      
+        <!-- <a href="/homecopy">Next</a>
+        <a href="/carousel">Carousel</h3></a> -->
+        
+        <!-- {% if messages %}
+        {% for message in messages %}
+        <div class="alert {% if message.tags %} alert-{{message.tags}}{% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %} -->
+        
+
+        <div class="container" style="padding-top:5%">
+
+            <div class="container"  >
+                {% if form %}
+                {% csrf_token %}
+                
+                
+             
+                    {% for pf in Lapi %}
+                          <div class="card ">
+                          <div class="album py-5 bg-light">
+                              <div class="container">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <div class="card mb-4 shadow-sm">
+                                        <!-- <img src="{% static 'download.jpg' %} " alt="No image"> -->
+                                          <!-- <img src="https://via.placeholder.com/225x225" alt="No image"> -->
+                                          <img src={{pf.link}} alt="No image">
+                               
+                                      <div class="card-body">
+                                          <p><h5>Name:{{pf.name}}</h5></p>
+                                          <p><h5>Company:{{pf.company}}</h5></p>
+                                          <h5>Cost:₹{{pf.cost}}.00</h5><br>
+                                          <p class="card-text"></p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                          <div class="btn-group">
+                                              <form action="/addtocart/{{pf.id}}/">
+                                                <button  id="demo" type="submit"class="btn btn-primary"><i class="fa fa-shopping-cart"></i>  AddToCart
+                                                  </button>
+                                              </form>
+                                              <p> `    </p>
+                                              <form action="/buynow/{{pf.id}}/">
+                                                <button  id="demo" type="submit" class="btn btn-primary">
+                                                <i class="fa fa-bolt"></i> Buy Now </button>
+                                              </form>
+            
+                                          </div>
+                                        
+                                          <small class="text-muted">Laptop</small>
+                                        </div> 
+                                        </div>
+                                      </div>
+                                      <p></p>
+                                  <p></p>
+                                  <p></p>
+                                    </div>
+                                    <div class="col-md-8">
+                                      <p> </p>
+                                      <p> </p>
+                                      <h2>About Product</h2>
+                                      <p> </p>
+                                      <p> </p>
+                                        <p>{{pf.content}}</p>
+                                    </div>
+                                    
+                                  </div>
+                                  
+                                </div>
+                               
+                              </div>
+            
+                    {% endfor %}
+            
+                    {% for pf in Wth %}
+                          <div class="card ">
+                          <div class="album py-5 bg-light">
+                              <div class="container">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <div class="card mb-4 shadow-sm">
+                                        <!-- <img src="{% static 'download.jpg' %} " alt="No image"> -->
+                                          <!-- <img src="https://via.placeholder.com/225x225" alt="No image"> -->
+                                          <img src={{pf.link}} alt="No image">
+                               
+                                      <div class="card-body">
+                                          <p><h5>Name:{{pf.name}}</h5></p>
+                                        <p><h5>Company:{{pf.company}}</h5></p>
+                                        <h5>Cost:₹{{pf.cost}}.00</h5><br>
+                                          <p class="card-text"></p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                          <div class="btn-group">
+                                            <form action="/addtocart/{{pf.id}}/">
+                                              <button  id="demo" type="submit"class="btn btn-primary"><i class="fa fa-shopping-cart"></i>  AddToCart
+                                                </button>
+                                            </form>
+                                            <p> `    </p>
+                                            <form action="/buynow/{{pf.id}}/">
+                                              <button  id="demo" type="submit" class="btn btn-primary">
+                                              <i class="fa fa-bolt"></i> Buy Now </button>
+                                            </form>
+                                          
+                                          </div>
+                                          <small class="text-muted">Watches</small>
+                                        </div> 
+                                        </div>
+                                      </div>
+                                      <p></p>
+                                  <p></p>
+                                  <p></p>
+                                    </div>
+                                    <div class="col-md-8">
+                                      <p> </p>
+                                      <h2>About Product</h2>
+                                      <p> </p>
+                                      <p> </p>
+                                        <p>{{pf.content}}</p>
+                                    </div>
+                                    
+                                  </div>
+                                  
+                                </div>
+                               
+                              </div>
+            
+                    {% endfor %}
+            
+                    {% for pf in phn %}
+                          <div class="card ">
+                          <div class="album py-5 bg-light">
+                              <div class="container">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <div class="card mb-4 shadow-sm">
+                                        <!-- <img src="{% static 'download.jpg' %} " alt="No image"> -->
+                                          <!-- <img src="https://via.placeholder.com/225x225" alt="No image"> -->
+                                          <img src={{pf.link}} alt="No image">
+                               
+                                      <div class="card-body">
+                                        <p><h5>Name:{{pf.name}}</h5></p>
+                                        <p><h5>Company:{{pf.company}}</h5></p>
+                                        <h5>Cost:₹{{pf.cost}}.00</h5><br>
+                                          <p class="card-text"></p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                          <div class="btn-group">
+                                            <form action="/addtocart/{{pf.id}}/">
+                                              <button  id="demo" type="submit"class="btn btn-primary"><i class="fa fa-shopping-cart"></i>  AddToCart
+                                                </button>
+                                            </form>
+                                            <p> `    </p>
+                                            <form action="/buynow/{{pf.id}}/">
+                                              <button  id="demo" type="submit" class="btn btn-primary">
+                                              <i class="fa fa-bolt"></i> Buy Now </button>
+                                            </form>
+            
+                                          
+                                          </div>
+                                          <small class="text-muted">Phones</small>
+                                        </div> 
+                                        </div>
+                                      </div>
+                                      <p></p>
+                                  <p></p>
+                                  <p></p>
+                                    </div>
+                                    <div class="col-md-8">
+                                      <p> </p>
+                                      <h2>About Product</h2>
+                                      <p> </p>
+                                      <p> </p>
+                                        <p>{{pf.content}}</p>
+                                    </div>
+                                    
+                                  </div>
+                                  
+                                </div>
+                               
+                              </div>
+            
+                    {% endfor %}
+                    </div>
+                
+            {% endif %}
+            </div>
+        </main>
+        
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+            <!-- <script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"></script>
+            <script src="{% static 'js/popper.min.js' %}"></script>
+            <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
+    </body>
+</html>
+
+
+
+
+
+

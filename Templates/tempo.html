@@ -1,0 +1,20 @@
+{% extends "base/layout.html" %}
+<div style="padding: 10%">
+{% block content %}
+
+
+
+
+
+{% for f in obj %}
+
+{{f.AccountUser}}
+
+
+<form method="POST" action="/profile/{{f.AccountUser}}" >
+    {% csrf_token %}
+<input type="submit" value="submit">
+</form>
+{% endfor %}
+</div>
+{% endblock %}

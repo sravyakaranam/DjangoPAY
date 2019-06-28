@@ -1,0 +1,9 @@
+    {% extends 'base/layout.html' %}
+    {%  block content %}
+    <div style="padding: 10%" class="container">
+            <h5>You bought {{comany }} of ₹{{cost}}<br>Now your current balance is {{bal}}</h5>
+    
+        <form action="/proview"><button class="btn btn-primary">Continue shopping</button></form>
+    </div>
+    
+    {% endblock %}

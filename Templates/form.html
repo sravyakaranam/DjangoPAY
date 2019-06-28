@@ -1,0 +1,45 @@
+{% extends 'base/layout.html' %}
+
+{% block content %}
+<div style="padding: 5%">
+<p>
+    <h3>
+        {{msg}}
+        <a href="/login">go here</a>
+    </h3>
+</p>
+</div>
+<div class="container" style="padding: 5%">
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            {% if forms %}
+                
+                <form action="" method="post">
+                    {% csrf_token %}
+                   
+                        <div class="form-group">
+                          username:    {{forms.user}}
+                            <br>
+                            <br>
+                      Account type:    {{forms.typeaccount}}
+                            <br>
+                            <br>
+                          Balance:     {{forms.balance}}
+                        </div>
+                    
+                    <input type="submit" value="Create Account" class="btn btn-outline-primary">
+                </form>
+                
+            {% else %}
+                    <p class="text-danger">No Form Available</p>
+            {% endif %}
+        </div>
+        <div class="col"></div>
+
+    </div>
+
+</div>
+{% endblock %}
