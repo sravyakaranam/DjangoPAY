@@ -1,0 +1,1 @@
+web: gunicorn offlineWallet.wsgi --log-file -
