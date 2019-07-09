@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect
-from products.models import Watch,Phone,Laptop,Product
+from products.models import Watch,Phone,Laptop,Table
 from django.http import HttpResponse,response,HttpResponseRedirect
 from products.forms import LaptopForm,WatchForm,PhoneForm,ProductForm
 from django.contrib import messages
 from accounts.models import Account
 import os
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 # Create your views here.
 message='Added to cart Successfully'
@@ -18,7 +20,6 @@ def view_products(request,id=None):
     Lapi=Laptop.objects.all()
     phn=Phone.objects.all()
     Wth=Watch.objects.all()
-  
     return render(request,'forms.html',{'form':form,'Lapi':Lapi,'phn':phn,'Wth':Wth,'message':message})
 
 def add(self, key, value): 
@@ -27,23 +28,31 @@ def add(self, key, value):
 def addtocart(request,id=None):
     flag=0
     form=None
+    table=Table()
     z=None
-    
     try:
         lapi=Laptop.objects.get(id=id)
-        # lst=Laptop.objects.all()
         for x in myproducts.keys():
             if (x.id == lapi.id):
                 flag=1
                 cnt = myproducts.get(x)
                 cnt=int(cnt)
                 myproducts[lapi]=cnt+1
-                amt+=lapi.cost
+                table=Table.objects.create(
+                    name=request.user,
+                    pro_id=lapi.id
+                )
+                amt=amt+lapi.cost
         if flag==0:
             myproducts[lapi]=1
-            amt+=lapi.cost
-        # msg='Laptop' + ' ' + lapi.name + ' ' +id + ' Added successfully'
-        # return render(request,'forms.html',{'obj':lapi,'msg':msg,'myproducts':myproducts})
+            
+            table=Table()
+            table=Table.objects.create(
+                    name=request.user,
+                    pro_id=lapi.id
+                )
+            amt=amt+lapi.cost
+        
 
     except:
         try:
@@ -54,12 +63,24 @@ def addtocart(request,id=None):
                     cnt = myproducts.get(x)
                     cnt=int(cnt)
                     myproducts[wth]=cnt+1
-                    amt+=lapi.cost
+                    
+                    table=Table.objects.create(
+                    name=request.user,
+                    pro_id=wth.id
+                    )
+              
+                    amt=amt+wth.cost
+                    
+                    
             if flag==0:
                 myproducts[wth]=1
-                amt+=lapi.cost
-            # msg='Watch ' + wth.name + ' '+id + ' Added successfully'
-            # return render(request,'forms.html',{'obj':wth,'msg':msg,'myproducts':myproducts})
+                
+                table=Table.objects.create(
+                    name=request.user,
+                    pro_id=wth.id
+                    )
+                amt=amt+wth.cost
+          
         except:
             try:
     
@@ -70,33 +91,44 @@ def addtocart(request,id=None):
                         cnt = myproducts.get(x)
                         cnt=int(cnt)
                         myproducts[phn]=cnt+1
-                        amt+=lapi.cost
+                     
+                        table=Table.objects.create(
+                        name=request.user,
+                        pro_id=phn.id
+                        )
+                       
+                        amt=amt+phn.cost
+                    
+                    
                 if flag==0:
                     myproducts[phn]=1
-                    amt+=lapi.cost
+                    
+                    table=Table.objects.create(
+                    name=request.user,
+                    pro_id=phn.id
+                    )
+                    amt=amt+phn.cost
+                   
+
                 # return render(request,'forms.html',{'obj':phn,'msg':msg,'myproducts':myproducts})
             except:
                 pass
-    print('myprod')
-    print(myproducts)
-    messages.success(request, 'Your password was updated successfully!')
-    
+  
+  
+    return redirect('/proview')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER','/added'))
     # return render(request,'viewcart.html',{'form':form,'cnt':cnt,'myproducts':myproducts})
 
 
 
 def viewcart(request):
-    lst1=Product.objects.all()
     lst2=Laptop.objects.all()
-    
+    lst1=myproducts.items()
     for x in lst1:
         for y in lst2:
             try:
                 xas=x.name
                 yas=y.name
-                print(xas)
-                print(yas)
                 obj=Laptop.objects.get(xas=yas)
                
                 key=obj
@@ -106,8 +138,6 @@ def viewcart(request):
                 try:
                     xas=x.name
                     yas=y.name
-                    print(xas)
-                    print(yas)
                     obj=Laptop.objects.get(xas=yas)
                     key=obj
                     value=x.items
@@ -116,8 +146,6 @@ def viewcart(request):
                     try:
                         xas=x.name
                         yas=y.name
-                        print(xas)
-                        print(yas)
                         obj=Laptop.objects.get(xas=yas)
                         key=obj
                         value=x.items
@@ -140,7 +168,7 @@ def deleteproduct(request,id):
     amt=0
     for x,y in myproducts.items():
         amt+=(x.cost)*y
-    
+   
     try:
         
         lapi=Laptop.objects.get(id=id)
@@ -186,53 +214,74 @@ def deleteproduct(request,id):
                         
     return render(request,'viewcart.html',{'myproducts':myproducts,'amt':amt})
 
+
 def buynow(request,id):
     obj=''
     ltop=[]
     flag=0
     myp=[]
     amt=0
-  
-    for x,y in myproducts.items():
-        amt+=(x.cost)*y
-        
-
-    obj=Account.objects.all()
-    for x in obj:
-        x.balance-=amt
-    
-    x.save()
+    msg=''
+    quantity=1
+    allusers=Account.objects.all()
+    user = Account.objects.get(AccountUser=request.user)
     try:
         lapi=Laptop.objects.get(id=id)
-        ltop=Laptop.objects.all()
-        return render(request,'buynow.html',{'bal':x.balance,'company':lapi.company,'cost':lapi.cost})     
+        for x,y in myproducts.items():
+            if(x.id == lapi.id):
+                quantity=y
+        for z in allusers:
+            if (z==user):
+                if(z.balance<lapi.cost):
+                        msg="Sorry!! "+user.AccountUser+" Your balance is not sufficent to buy this product :("
+                        return render(request,'buynow.html',{'bal':z.balance,'company':lapi.company,'cost':lapi.cost,'user':user,'msg':msg})    
+                else:
+                    z.balance-=(lapi.cost)*quantity
+                    z.save()
+        return render(request,'buynow.html',{'bal':z.balance,'company':lapi.company,'cost':lapi.cost,'user':user,'msg':msg})     
     except:
         try:
             wth=Watch.objects.get(id=id)
-            ltop=Watch.objects.all()
-            return render(request,'buynow.html',{'bal':x.balance,'company':wth.company,'cost':wth.cost})    
+            for x,y in myproducts.items():
+                if (x.id ==wth.id):
+                    quantity=y
+            for z in allusers:
+                if (z==user):
+                    if(z.balance<wth.cost):
+                        msg="Sorry!! "+user.AccountUser+" Your balance is not sufficent to buy this product :("
+                    else:
+                        z.balance-=wth.cost*quantity
+                        z.save()
+            return render(request,'buynow.html',{'bal':z.balance,'company':wth.company,'cost':wth.cost,'user':user,'msg':msg})    
         except:
             try:
                 phn=Phone.objects.get(id=id)
                 ltop=Phone.objects.all()
-                return render(request,'buynow.html',{'bal':x.balance,'company':wth.company,'cost':wth.cost})   
+                for x,y in myproducts.items():
+                    if(x.id == phn.id):
+                        quantity=y
+                for z in allusers:
+                    if (z==user):
+                        if(z.balance<phn.cost):
+                            msg="Sorry!! "+user.AccountUser+"Your balance is not sufficent to buy this product :("
+                    else:
+                        z.balance-=phn.cost*quantity
+                        z.save()
+                return render(request,'buynow.html',{'bal':z.balance,'company':phn.company,'cost':phn,'user':user,'msg':msg})   
             except:
                 return ''
 
-def savetodb(request):
-    msg=''
-    form=''
-    print('hunny')
-    for x,y in myproducts.items():
-        print('sravya')
-        product=Product(
-                    name=x.name,
-                    company=x.company,
-                    cost=x.cost,
-                    items=y)
-        print(x.name)
-        product.save()
-    print('harshi')
 
-    
-    return redirect('/')
+def load(request):
+    name=request.user
+    obj=[]
+    account=[]
+    acc=''
+    users=''
+    users = User.objects.get(username=request.user)
+
+    obj=Table.objects.filter(name=request.user)
+ 
+    for x in obj:
+        addtocart(users.id,x.pro_id)
+    return redirect('/proview')

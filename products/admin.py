@@ -1,5 +1,5 @@
 from django.contrib import admin
-from products.models import Watch,Laptop,Phone,Product
+from products.models import Watch,Laptop,Phone,Table
 from accounts.models import Account
 
 # Register your models here.
@@ -17,6 +17,6 @@ class PhoneAdmin(admin.ModelAdmin):
 class AccountAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Product)
-class ProductForm(admin.ModelAdmin):
+@admin.register(Table)
+class TableAdmin(admin.ModelAdmin):
     pass

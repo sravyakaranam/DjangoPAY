@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from products.views import view_products,addtocart
 from accounts.models import Account
-from accounts.views import signup,profile,viewall,login,Acc_view,Dummy,logout
-from products.views import view_products,addtocart,viewcart,deleteproduct,buynow,savetodb
+from accounts.views import signup,profile,viewall,login,Acc_view,Dummy,logout,email,sendmoney
+from products.views import view_products,addtocart,viewcart,deleteproduct,buynow,load
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,15 +27,17 @@ urlpatterns = [
     path('profile/',profile,name='profile'),
     path('dummy/',Dummy),
     path('login/',login,name='login'),
-    path('logout/',savetodb),
+    path('logout/',logout),
     path('',viewall),
     path('accview/',Acc_view),
-     path('proview/',view_products),
+    path('proview/',view_products),
     path('proview/added',view_products),
     path('proview/viewcart/',viewcart),
     path('proview/addtoart/',viewcart),
     path('addtocart/<str:id>/',addtocart),
     path('deleteproduct/<str:id>',deleteproduct),
     path('buynow/<str:id>/',buynow),
-   
+    path('load/',load),
+    path('email/',email),
+    path('sendmoney',sendmoney),
 ]

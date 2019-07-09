@@ -25,7 +25,7 @@ class Phone(models.Model):
     name=models.CharField(max_length=40)
     company=models.CharField(max_length=30)
     link=models.CharField(max_length=1100,help_text="Image Link",default="https://via.placeholder.com/225x225")
-    content=models.CharField(max_length=5000,help_text="Product discription",default="Effortlessly manage your busy schedule with the iPhone 6. This mobile phone has 16 GB of built-in memory, so you can store your music, apps, and more. Featuring an 8-megapixel resolution camera, it lets you document your travels and experiences in impressive detail. Stay connected and entertained using this iPhone 6. This device is locked to AT&T and compatible with Cricket, metroPCS, T-Mobile Carriers.")
+    content=models.TextField(max_length=5000,help_text="Product discription",default="Effortlessly manage your busy schedule with the iPhone 6. This mobile phone has 16 GB of built-in memory, so you can store your music, apps, and more. Featuring an 8-megapixel resolution camera, it lets you document your travels and experiences in impressive detail. Stay connected and entertained using this iPhone 6. This device is locked to AT&T and compatible with Cricket, metroPCS, T-Mobile Carriers.")
 
     def __str__(self):
         return self.company
@@ -38,18 +38,15 @@ class Laptop(models.Model):
     name=models.CharField(max_length=40)
     company=models.CharField(max_length=30,)
     link=models.CharField(max_length=1100,help_text="Image Link",default="https://via.placeholder.com/225x225")
-    content=models.CharField(max_length=5000,help_text="Product discription",default="The HP 245 G6 Laptop renders performance and multi-tasking efficiency with its integrated 4 GB RAM. This device is powered by a reliable 7th Generation AMD A9-9420 that takes care of all its processing needs. Its hard drive provides storage space for digital content. Also, this laptop features a convenient 35.56cm(14-inch) display that provides a clear view of files, apps, and documents.")
+    content=models.TextField(max_length=5000,help_text="Product discription",default="The HP 245 G6 Laptop renders performance and multi-tasking efficiency with its integrated 4 GB RAM. This device is powered by a reliable 7th Generation AMD A9-9420 that takes care of all its processing needs. Its hard drive provides storage space for digital content. Also, this laptop features a convenient 35.56cm(14-inch) display that provides a clear view of files, apps, and documents.")
 
     def __str__(self):
         return self.company
 
-
-
-class Product(models.Model):
-    cost=models.IntegerField()
-    name=models.CharField(max_length=40)
-    company=models.CharField(max_length=30,)
-    items=models.IntegerField()
-   
+class Table(models.Model):
+    id=models.UUIDField(primary_key=True ,default=uuid.uuid4,help_text="generated unique id for product")
+    name=models.CharField(max_length=100)
+    pro_id=models.CharField(max_length=100)
+    
     def __str__(self):
-        return self.company
+        return self.name

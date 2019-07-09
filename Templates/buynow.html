@@ -1,9 +1,43 @@
-    {% extends 'base/layout.html' %}
+{% extends 'base/layout.html' %}
     {%  block content %}
+    
+    {% if msg %}
+
     <div style="padding: 10%" class="container">
-            <h5>You bought {{comany }} of ₹{{cost}}<br>Now your current balance is {{bal}}</h5>
+       <div class="table">
+           <div class="row">
+
+           </div>
+           <div class="col">
+                <h3 style="color: brown">{{ msg }}</h3>
+
+                <div style="align-content: center">
+        
+                <div style="padding-left: 25%;" class="container">
+        <p>            
+        <img src="https://image.shutterstock.com/image-vector/vector-cartoon-wallet-empty-isolated-260nw-662506885.jpg"  align="middle" ></p>
+                </div>
+      
+        
+        
+    </div>
+    <div class="col">
+           
+    </div>
+    </div>
+   
+
+</div>
+ 
+
+
+
+    {% else %}
+    <div style="padding: 10%" class="container">
+            <h5>You bought {{company }} of ₹{{cost}}<br>Now your current balance is {{bal}}</h5>
     
         <form action="/proview"><button class="btn btn-primary">Continue shopping</button></form>
     </div>
+    {% endif %}
     
     {% endblock %}
